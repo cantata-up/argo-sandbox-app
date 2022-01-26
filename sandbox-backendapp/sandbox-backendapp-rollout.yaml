@@ -1,0 +1,49 @@
+
+apiVersion: argoproj.io/v1alpha1 
+kind: Rollout 
+metadata:
+  name: sandbox-backendapp-rollout
+  namespace: demo
+  labels:
+    app: sandbox-backendapp
+    
+   
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sandbox-backendapp
+  template:
+    metadata:
+      labels:
+        app: sandbox-backendapp
+         
+    spec:
+      containers:
+      - name: sandbox-backendapp
+        image: harbor.hqokd.nshcloud.com/sandbox-backendapp/sandbox-backendapp
+        resources:
+          limits:
+            cpu: 300m
+          requests:
+            cpu: 100m
+        imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 8080
+      imagePullSecrets:
+      - name: harbor
+          
+  minReadySeconds: 30
+  revisionHistoryLimit: 3
+  strategy:
+ 
+    blueGreen: 
+      previewService: sandbox-backendapp-preview 
+      activeService: sandbox-backendapp
+      autoPromotionEnabled: false
+      previewReplicaCount: 1
+      scaleDownDelaySeconds: 60
+
+  
+        

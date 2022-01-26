@@ -1,0 +1,19 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: sandbox-backendapp
+  namespace: demo
+  labels:
+    app.kubernetes.io/instance: sandbox-backendapp
+spec:
+  host: sandbox-backendapp.apps.hqokd.nshcloud.com
+  to:
+    kind: Service
+    name: sandbox-backendapp
+    weight: 100
+  port:
+    targetPort: 8080
+  wildcardPolicy: None
+
+
+

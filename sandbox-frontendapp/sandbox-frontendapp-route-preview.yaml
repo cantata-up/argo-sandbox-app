@@ -1,0 +1,16 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: sandbox-frontendapp-preview
+  namespace: demo
+  labels:
+    app.kubernetes.io/instance: sandbox-frontendapp-preview
+spec:
+  host: sandbox-frontendapp-preview.apps.hqokd.nshcloud.com
+  to:
+    kind: Service
+    name: sandbox-frontendapp-preview
+    weight: 100
+  port:
+    targetPort: 3000
+  wildcardPolicy: None
